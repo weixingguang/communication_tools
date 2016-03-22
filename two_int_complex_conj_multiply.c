@@ -1,5 +1,8 @@
 /*
-* compile instruction: gcc two_int_complex_multiply.c -o two_int_complex_multiply -msse4.1
+* compile instruction: gcc two_int_complex_conj_multiply.c -o two_int_complex_conj_multiply -msse4.1
+* A = a + bj
+* B = c + dj
+* A * conj(B) = (a + bj)*(c -dj) = (ac+bd) + (bc-ad)j
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,7 +12,7 @@
 
 int16_t conjugate[8] __attribute__((aligned(16))) = {1,-1,1,-1,1,-1,1,-1};
 
-void two_int_complex_multiply(int16_t *inputa, int16_t *inputb, int length, int16_t *output, int16_t shift)
+void two_int_complex_conj_multiply(int16_t *inputa, int16_t *inputb, int length, int16_t *output, int16_t shift)
 {
 	/*
 	 *	inputa: RE(16 bit),IM(16 bit); RE(16 bit),IM(16 bit)
@@ -26,9 +29,9 @@ void two_int_complex_multiply(int16_t *inputa, int16_t *inputb, int length, int1
 	int index;
 	for(index = 0; index < (length >> 2); index++)
 	{
-		mmtmp_re = _mm_sign_epi16(*b128, *(__m128i*)&conjugate[0]);
-		mmtmp_re = _mm_madd_epi16(*a128, mmtmp_re);
+		mmtmp_re = _mm_madd_epi16(*a128, *b128);
 
+		*b128    = _mm_sign_epi16(*b128, *(__m128i*)&conjugate[0]);
 		mmtmp_im = _mm_shufflelo_epi16(*b128, _MM_SHUFFLE(2,3,0,1));
 		mmtmp_im = _mm_shufflehi_epi16(mmtmp_im, _MM_SHUFFLE(2,3,0,1));
 		mmtmp_im = _mm_madd_epi16(*a128, mmtmp_im);
@@ -84,7 +87,7 @@ int main(int argc, char *argv[])
 	}
 	puts("\n");
 
-	two_int_complex_multiply((int16_t *)inputa, (int16_t *)inputb, data_length, (int16_t *)output, shift);
+	two_int_complex_conj_multiply((int16_t *)inputa, (int16_t *)inputb, data_length, (int16_t *)output, shift);
 
 	puts("output data:");
 	for(index = 0; index < data_length; index++)
