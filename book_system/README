@@ -1,0 +1,34 @@
+book
+{
+		book name;
+		author;
+		ISBN;
+		price;
+}
+
+book_series
+{
+	book name;
+	total num;
+	available num;
+	position;
+}
+
+book_shelf
+{
+	book name;
+	total capacity;
+	remaining capacity;
+	already capacity;
+
+	book search;
+}
+
+people
+{
+	name;
+	money;
+	book search;
+	buy book;
+	book basket;
+}
