@@ -1,12 +1,6 @@
 class Book
 {
-	private:
-		string strBookName;
-		string strAuthor;
-		string strISBN;
-		float  fPrice;
 	public:
-		Book(string, string, string, float);
 		string GetBookName();
 		string GetAuthor();
 		string GetISBN();
@@ -16,6 +10,14 @@ class Book
 		string SetAuthor(string Author);
 		string SetISBN(string ISBN);
 		float SetPrice(float Price);
+
+		Book(string, string, string, float);
+
+	private:
+		string strBookName;
+		string strAuthor;
+		string strISBN;
+		float  fPrice;
 };
 
 Book::Book(string BookName, string Author, string ISBN, float Price)
