@@ -14,12 +14,13 @@ class BookShelf
 		int GetCapacity();
 		int GetBookNum();
 		int GetFreeNum();
+		vector<BookSeries> GetBooks();
 
 		int SetCapacity(int capacity);
 		int SetBookNum(int booknum);
 		int SetFreeNum(int freenum);
 
-		BookShelf(vector<BookSeries> book, int, int, int);
+		BookShelf(vector<BookSeries> book, int, int);
 
 	private:
 		vector<BookSeries> Books;
@@ -29,12 +30,12 @@ class BookShelf
 };
 
 // constructor, initialize a bookshelf
-BookShelf::BookShelf(vector<BookSeries> bookseries, int capacity, int booknum, int freenum)
+BookShelf::BookShelf(vector<BookSeries> bookseries, int capacity, int booknum)
 {
 	Books = bookseries;
 	iCapacity = capacity;
 	iBookNum = booknum;
-	iFreeNum = freenum;
+	iFreeNum = iCapacity - iBookNum;
 }
 
 // search a book in this bookshelf and return it
@@ -86,6 +87,12 @@ void BookShelf::ShowShelfInfo()
 	cout<< "******************************Book Shelf*********************************" <<endl;
 	cout<< "BookShelf Capacity : " << iCapacity <<endl;
 	cout<< "BookShelf BookNum  : " << iBookNum << "   BookShelf FreeNum : " << iFreeNum <<endl;
+		cout << "-------------------------" << endl;
+	for (vector<BookSeries>::iterator iter = Books.begin(); iter != Books.end(); iter++)
+	{
+		(*iter).ShowBookSeriesInfo();
+		cout << "-------------------------" << endl;
+	}
 	cout<< "*************************************************************************" <<endl;
 }
 
@@ -105,6 +112,12 @@ int BookShelf::GetBookNum()
 int BookShelf::GetFreeNum()
 {
 	return iFreeNum;
+}
+
+// get the book vector
+vector<BookSeries> BookShelf::GetBooks()
+{
+	return Books;
 }
 
 // set the capacity of this bookshelf

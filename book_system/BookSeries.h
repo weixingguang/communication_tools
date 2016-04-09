@@ -30,7 +30,7 @@ class BookSeries
 };
 
 // constructor, initialize a bookseries
-BookSeries::BookSeries(Book book, int TotalNum, int AvailNum, Position position)
+BookSeries::BookSeries(Book book = Book(), int TotalNum = 10, int AvailNum = 10, Position position = {0,0})
 {
 	cBook       = book;
 	iTotalNum   = TotalNum;
